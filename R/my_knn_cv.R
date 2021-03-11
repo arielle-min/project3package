@@ -4,13 +4,17 @@
 #'
 #' @param train Data frame input.
 #' @param cl Vector inpur containing the true class of the training data.
-#' @param k_knn Numeric input of the k-nearest neighbors.
+#' @param k_nn Numeric input of the k-nearest neighbors.
 #' @param k_cv Numeric input of number of folds.
 #'
 #' @return List output containing predicted class and cross validation error.
 #'
 #' @examples
-#' my_knn_cv(train = , cl = , k_nn = , k_cv = )
+#' library(palmerpenguins)
+#' data(package = "palmerpenguins")
+#' penguins_omit <- na.omit(penguins)
+#' my_knn_cv(train = penguins_omit["bill_length_mm"], cl = penguins_omit["species"],
+#'   k_nn = 1, k_cv = 5)
 #'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {

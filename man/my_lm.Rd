@@ -20,6 +20,7 @@ t value, and p_value for the linear model.
 This function ____.
 }
 \examples{
-my_lm(formula = , data = )
+data(mtcars)
+my_lm(formula = mpg ~ hp + wt, data = mtcars)
 
 }

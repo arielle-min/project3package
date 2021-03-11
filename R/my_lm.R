@@ -10,7 +10,8 @@
 #'   t value, and p_value for the linear model.
 #'
 #' @examples
-#' my_lm(formula = , data = )
+#' data(mtcars)
+#' my_lm(formula = mpg ~ hp + wt, data = mtcars)
 #'
 #' @export
 my_lm <- function(formula, data) {

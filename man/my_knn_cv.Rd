@@ -11,9 +11,9 @@ my_knn_cv(train, cl, k_nn, k_cv)
 
 \item{cl}{Vector inpur containing the true class of the training data.}
 
-\item{k_cv}{Numeric input of number of folds.}
+\item{k_nn}{Numeric input of the k-nearest neighbors.}
 
-\item{k_knn}{Numeric input of the k-nearest neighbors.}
+\item{k_cv}{Numeric input of number of folds.}
 }
 \value{
 List output containing predicted class and cross validation error.
@@ -22,6 +22,10 @@ List output containing predicted class and cross validation error.
 This function ____.
 }
 \examples{
-my_knn_cv(train = , cl = , k_nn = , k_cv = )
+library(palmerpenguins)
+data(package = "palmerpenguins")
+penguins_omit <- na.omit(penguins)
+my_knn_cv(train = penguins_omit["bill_length_mm"], cl = penguins_omit["species"],
+  k_nn = 1, k_cv = 5)
 
 }

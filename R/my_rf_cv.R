@@ -7,7 +7,9 @@
 #' @return Numeric output of the cross-validation error.
 #'
 #' @examples
-#' my_rf_cv(x = )
+#' library(palmerpenguins)
+#' data(package = "palmerpenguins")
+#' my_rf_cv(k = 5)
 #'
 #' @export
 my_rf_cv <- function(k) {
