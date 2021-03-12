@@ -9,7 +9,7 @@ my_knn_cv(train, cl, k_nn, k_cv)
 \arguments{
 \item{train}{Data frame input.}
 
-\item{cl}{Vector inpur containing the true class of the training data.}
+\item{cl}{Vector input containing the true class of the training data.}
 
 \item{k_nn}{Numeric input of the k-nearest neighbors.}
 
@@ -23,9 +23,11 @@ This function ____.
 }
 \examples{
 library(palmerpenguins)
+library(dplyr)
 data(package = "palmerpenguins")
 penguins_omit <- na.omit(penguins)
-my_knn_cv(train = penguins_omit["bill_length_mm"], cl = penguins_omit["species"],
+my_cl <- penguins_omit \%>\% pull(species)
+my_knn_cv(train = penguins_omit["bill_length_mm"], cl = my_cl,
   k_nn = 1, k_cv = 5)
 
 }

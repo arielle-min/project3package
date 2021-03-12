@@ -3,7 +3,7 @@
 #' This function ____.
 #'
 #' @param train Data frame input.
-#' @param cl Vector inpur containing the true class of the training data.
+#' @param cl Vector input containing the true class of the training data.
 #' @param k_nn Numeric input of the k-nearest neighbors.
 #' @param k_cv Numeric input of number of folds.
 #'
@@ -11,9 +11,11 @@
 #'
 #' @examples
 #' library(palmerpenguins)
+#' library(dplyr)
 #' data(package = "palmerpenguins")
 #' penguins_omit <- na.omit(penguins)
-#' my_knn_cv(train = penguins_omit["bill_length_mm"], cl = penguins_omit["species"],
+#' my_cl <- penguins_omit %>% pull(species)
+#' my_knn_cv(train = penguins_omit["bill_length_mm"], cl = my_cl,
 #'   k_nn = 1, k_cv = 5)
 #'
 #' @export
@@ -37,7 +39,7 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     cl_knn <- data_train$y
     data_train <- data_train %>% select(starts_with('x'))
     data_test <- data_test %>% select(starts_with('x'))
-    knn <- knn(data_train, data_test, cl_knn, k = k_nn)
+    knn <- class::knn(data_train, data_test, cl_knn, k = k_nn)
     knn <- as.matrix(knn)
 
     # fills the matrix with the predicted class for the entire fold

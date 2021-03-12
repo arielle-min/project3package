@@ -16,8 +16,6 @@ Numeric output of the cross-validation error.
 This function ____.
 }
 \examples{
-library(palmerpenguins)
-data(package = "palmerpenguins")
 my_rf_cv(k = 5)
 
 }

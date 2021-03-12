@@ -22,7 +22,6 @@ and p-value.
 This function ____.
 }
 \examples{
-my_t_test(x = c(0, 1, 3, 3), alternative = "greater")
 my_t_test(x = c(10, 15, 14, 16), alternative = "two.sided", mu = 13)
 
 }

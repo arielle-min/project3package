@@ -13,6 +13,8 @@
 #' data(mtcars)
 #' my_lm(formula = mpg ~ hp + wt, data = mtcars)
 #'
+#' @importFrom stats pt na.omit model.matrix model.frame model.response predict sd
+#'
 #' @export
 my_lm <- function(formula, data) {
   x_input <- model.matrix(formula, data)

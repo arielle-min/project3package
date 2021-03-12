@@ -30,6 +30,7 @@ This data and documentation come from the \code{gapminder} package,
 available as \code{\link[gapminder]{gapminder}}.
 }
 \examples{
+gapminder <- my_gapminder
 str(gapminder)
 head(gapminder)
 summary(gapminder)
