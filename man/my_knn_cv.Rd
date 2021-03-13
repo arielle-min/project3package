@@ -22,11 +22,8 @@ List output containing predicted class and cross validation error.
 This function ____.
 }
 \examples{
-library(palmerpenguins)
-library(dplyr)
-data(package = "palmerpenguins")
-penguins_omit <- na.omit(penguins)
-my_cl <- penguins_omit \%>\% pull(species)
+penguins_omit <- na.omit(palmerpenguins::penguins)
+my_cl <- penguins_omit \%>\% dplyr::pull(species)
 my_knn_cv(train = penguins_omit["bill_length_mm"], cl = my_cl,
   k_nn = 1, k_cv = 5)
 

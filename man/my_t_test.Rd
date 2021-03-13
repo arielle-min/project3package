@@ -22,6 +22,6 @@ and p-value.
 This function ____.
 }
 \examples{
-my_t_test(x = c(10, 15, 14, 16), alternative = "two.sided", mu = 13)
+my_t_test(c(10, 15, 14, 16), alternative = "two.sided", mu = 13)
 
 }
