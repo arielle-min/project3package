@@ -23,9 +23,7 @@ library(project3package)
 
 This is the introduction of my project. Include how to install package.
 
-```{r, eval = false}
 
-```
 
 
 ## Tutorial for my_t_test
