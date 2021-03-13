@@ -14,7 +14,7 @@ You can install the project3package with the following line:
 
 ``` r
 # install.packages("project3package")
-devtools::install_github("arielle-min/project3package", build_vignette = TRUE, build_opts = c())
+devtools::install_github("arielle-min/project3package")
 library(project3package)
 ```
 
@@ -30,12 +30,4 @@ help(package = "project3package", help_type = "html")
 utils::browseVignettes(package = "project3package")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(project3package)
-## basic example code
-```
 
