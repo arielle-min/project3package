@@ -19,7 +19,56 @@ knitr::opts_chunk$set(
 library(project3package)
 ```
 
-```{r}
-2*2
+## Introduction
+
+This is the introduction of my project. Include how to install package.
+
+```{r, eval = false}
+
+library(project3package)
 ```
-test vignettes
+
+
+## Tutorial for my_t_test
+
+### two.sided hypothesis
+```{r}
+
+
+```
+intrepret results:
+
+
+### less hypothesis
+```{r}
+
+
+```
+intrepret results:
+
+### greater hypothesis
+```{r}
+
+
+```
+intrepret results:
+
+## Tutorial for my_lm
+
+```{r}
+
+```
+
+## Tutorial for my_knn_cv
+
+```{r}
+
+```
+
+## Tutorial for my_rf_cv
+
+```{r}
+
+```
+
+
