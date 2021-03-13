@@ -25,7 +25,7 @@ This is the introduction of my project. Include how to install package.
 
 ```{r, eval = false}
 
-library(project3package)
+#library(project3package)
 ```
 
 
