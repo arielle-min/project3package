@@ -40,10 +40,11 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(project3package)
+
 ```
 
-```{r} 
-# decide to include eval or echo??
+```{r, include = FALSE} 
+set.seed(302)
 library(tidyverse)
 library(palmerpenguins)
 library(class)
@@ -208,7 +209,7 @@ print(cv_table)
 
 
 We see that for knn = 2, the boxplot shows that it has the largest range. The shape of the box itself is also very wide. The boxplots for knn = 5 and knn = 10 are much more similar looking. They both have a much smaller range and skinnier boxes. It appears that the range for knn = 5 is the lowest. 
-When we look at the table, we see that knn = 2, it has the largest mean and the largest standard deviation. knn = 5 has the lowest standard deviation and knn = 10 has the lowest mean. 
+When we look at the table, we see that knn = 2, it has the largest mean and the largest standard deviation. knn = 10 has the lowest mean and the lowest standard deviation. 
 
 
 Compare the means and standard deviations of the the different values of k and comment on why you think this is the case.
