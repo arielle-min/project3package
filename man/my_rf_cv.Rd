@@ -13,9 +13,10 @@ my_rf_cv(k)
 Numeric output of the cross-validation error.
 }
 \description{
-This function ____.
+This function predicts a variable using covariates from the same data set.
 }
 \examples{
 my_rf_cv(k = 5)
 
 }
+\keyword{prediction}

@@ -1,11 +1,12 @@
 #' T Test Function
 #'
-#' This function ____.
+#' This function preforms a one sample t-test.
 #'
 #' @param x Numeric input of a vector containing a set of data.
 #' @param alternative String input indicating the type of hypothesis test.
 #' @param mu Numeric input representing the value for the null hypothesis of
 #'   the mean, defaults to \code{0}.
+#' @keywords inference
 #'
 #' @return List output containing the t-statistic, df, \code{alternative},
 #'   and p-value.

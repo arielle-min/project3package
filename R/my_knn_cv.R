@@ -1,11 +1,12 @@
 #' k-Nearest Neighbors Cross-Validation Function
 #'
-#' This function ____.
+#' This function predicts an output class using covariates from the same data set.
 #'
 #' @param train Data frame input.
 #' @param cl Vector input containing the true class of the training data.
 #' @param k_nn Numeric input of the k-nearest neighbors.
 #' @param k_cv Numeric input of number of folds.
+#' @keywords prediction
 #'
 #' @return List output containing predicted class and cross validation error.
 #'

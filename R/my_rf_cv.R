@@ -1,8 +1,9 @@
 #' Random Forest Cross-Validation Function
 #'
-#' This function ____.
+#' This function predicts a variable using covariates from the same data set.
 #'
 #' @param k Numeric input of the number of folds.
+#' @keywords prediction
 #'
 #' @return Numeric output of the cross-validation error.
 #'

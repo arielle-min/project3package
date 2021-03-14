@@ -17,10 +17,12 @@ Matrix displaying the coefficient, standard error, observed
 t value, and p_value for the linear model.
 }
 \description{
-This function ____.
+This function fits a linear model.
 }
 \examples{
 data(mtcars)
 my_lm(formula = mpg ~ hp + wt, data = mtcars)
 
 }
+\keyword{inference}
+\keyword{prediction}

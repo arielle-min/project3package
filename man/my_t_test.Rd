@@ -19,9 +19,10 @@ List output containing the t-statistic, df, \code{alternative},
 and p-value.
 }
 \description{
-This function ____.
+This function preforms a one sample t-test.
 }
 \examples{
 my_t_test(c(10, 15, 14, 16), alternative = "two.sided", mu = 13)
 
 }
+\keyword{inference}

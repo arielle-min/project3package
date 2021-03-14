@@ -19,7 +19,7 @@ my_knn_cv(train, cl, k_nn, k_cv)
 List output containing predicted class and cross validation error.
 }
 \description{
-This function ____.
+This function predicts an output class using covariates from the same data set.
 }
 \examples{
 penguins_omit <- na.omit(palmerpenguins::penguins)
@@ -28,3 +28,4 @@ my_knn_cv(train = penguins_omit["bill_length_mm"], cl = my_cl,
   k_nn = 1, k_cv = 5)
 
 }
+\keyword{prediction}
