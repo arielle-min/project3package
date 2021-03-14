@@ -8,6 +8,29 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<!--- Begin styling code. --->
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 12pt;
+}
+h1.title {
+  font-size: 38px;
+  text-align: center;
+}
+h4.author {
+  font-size: 18px;
+  text-align: center;
+}
+h4.date {
+  font-size: 18px;
+  text-align: center;
+}
+</style>
+<!--- End styling code. --->
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -19,53 +42,177 @@ knitr::opts_chunk$set(
 library(project3package)
 ```
 
+```{r} 
+# decide to include eval or echo??
+library(tidyverse)
+library(palmerpenguins)
+library(class)
+library(matrixStats)
+```
+
 ## Introduction
 
 This is the introduction of my project. Include how to install package.
 
-
-
+```{r, eval = FALSE}
+# installs package
+devtools::install_github("arielle-min/project3package")
+# access to library
+library(project3package)
+```
 
 ## Tutorial for my_t_test
-
-### two.sided hypothesis
 ```{r}
+lifeExp_data <- my_gapminder$lifeExp
+```
 
+### Two.Sided Hypothesis:
+```{r}
+my_t_test(lifeExp_data, "two.sided", 60)
 
 ```
-intrepret results:
+The p-value is .09322877, which means that there's about a .09 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since .09 is greater than our alpha level, .05, this means we fail to reject the null hypothesis. 
+There is not enough data to support that the mean life expectancy is not equal to 60.
 
-
-### less hypothesis
+### Less Hypothesis:
 ```{r}
-
+my_t_test(lifeExp_data, "less", 60)
 
 ```
-intrepret results:
+The p-value is .04661438, which means that there's about a .047 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since .047 is less than our alpha level, .05, this means we reject the null hypothesis. 
+This data supports that the mean life expectancy is less than 60. 
 
-### greater hypothesis
+### Greater Hypothesis:
 ```{r}
-
+my_t_test(lifeExp_data, "greater", 60)
 
 ```
-intrepret results:
+The p-value is .9533856, which means that there's about a .95 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since .95 is greater than our alpha level, .05, this means we fail to reject the null. 
+There is not enough data to support that the mean life expectancy is greater to 60. 
 
 ## Tutorial for my_lm
 
+### Linear Model:
 ```{r}
-
+my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
 ```
+The coefficient for gdpPercap is .0004452704, which is about 0. This means that gdpPercap has no impact on life expectancy. 
+
+
+Ho: β = 0
+
+
+Ha: β ≠ 0
+
+
+The p-value is 8.552893e-73, which is about 0 and means that there's about a .0 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since .0 is less than our alpha level, .05, this means we reject the null hypothesis. 
+This data supports that the the coefficient for gdpPercap is not equal to 0.  
+
+### Plotting Values:
+```{r}
+lifeExp_model <- lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+lifeExp_model_fits <- fitted(lifeExp_model)
+my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_model_fits)
+lifeExp_plot <- ggplot(my_df, aes(x = fitted, y = actual)) +
+                  geom_point() +
+                  geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) + 
+                  theme_bw(base_size = 15) +
+                  labs(x = "Fitted values", y = "Actual values", 
+                       title = "Actual vs. Fitted") +
+                  theme(plot.title = element_text(hjust = 0.5))
+print(lifeExp_plot)
+```
+
+
+
+With the model, we see that for the fitted values that are less than 70, there is very little accuracy with the model. However, for the fitted values that are between 70-85, there is much more accuracy. Overall, because the model is trying to predict values from the entire actual data set, I'd say that this model isn't very accurate. 
 
 ## Tutorial for my_knn_cv
 
 ```{r}
+penguins_omit <- na.omit(penguins) 
+train <- penguins_omit %>% select(3, 4, 5, 6)
+cv_error <- matrix(NA, nrow = 10) 
+train_error <- matrix(NA, nrow = 10) 
+
+for (i in 1:10) {
+  cv_mis_value <- my_knn_cv(train, penguins_omit$species, k_nn = i, k_cv = 5)
+  train_err_value <- knn(train, train, penguins_omit$species, k = i)
+  train_err_value_avg <- 1 - mean(train_err_value == penguins_omit$species)
+  cv_error[i] <- cv_mis_value$`cv error`
+  train_error[i] <- train_err_value_avg
+}
+
+# produces a table 
+error_table <- matrix(c(cv_error, train_error), ncol = 2)
+colnames(error_table) <- c("cv error", "training error")
+rownames(error_table) <- c(1:10)
+error_table <- as.table(error_table)
+print(error_table)
 
 ```
+
+
+
+State which model you would choose based on the training misclassification rates and which model you would choose based on the CV misclassification rates.
+
+
+Discuss which model you would choose in practice and why.
+
 
 ## Tutorial for my_rf_cv
 
 ```{r}
+cv_est_mse_2 <- matrix(NA, nrow = 30) 
+cv_est_mse_5 <- matrix(NA, nrow = 30) 
+cv_est_mse_10 <- matrix(NA, nrow = 30) 
+
+for (i in 1:30) {
+  cv_muse_value <- my_rf_cv(2)
+  cv_est_mse_2[i] <- cv_muse_value
+}
+
+for (i in 1:30) {
+  cv_muse_value <- my_rf_cv(5)
+  cv_est_mse_5[i] <- cv_muse_value
+}
+
+for (i in 1:30) {
+  cv_muse_value <- my_rf_cv(10)
+  cv_est_mse_10[i] <- cv_muse_value
+}
+
+
+k_cv_est_mse <- data.frame("knn" = rep(c("2", "5", "10"), each = 30),
+                           "cv_est_mse"  = c(cv_est_mse_2, cv_est_mse_5, cv_est_mse_10))
+
+knn_mse_box <- ggplot(k_cv_est_mse, aes(x = knn, y = cv_est_mse)) + 
+                  geom_boxplot(fill = "lightblue") +
+                  labs(title = "CV estimated MSE based on knn", 
+                       x = "knn", y = "CV estimated MSE") +
+                  theme_bw(base_size = 16, base_family = "serif") +
+                  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+print(knn_mse_box)
+
+cv_table <- matrix(c(colMeans(cv_est_mse_2), colSds(cv_est_mse_2), 
+                     colMeans(cv_est_mse_5), colSds(cv_est_mse_5), 
+                     colMeans(cv_est_mse_10), colSds(cv_est_mse_10)), 
+                     ncol = 2, nrow = 3, byrow = TRUE)
+colnames(cv_table) <- c("mean","standard deviation")
+rownames(cv_table) <- c("knn = 2", "knn = 5", "knn = 10")
+cv_table <- as.table(cv_table)
+print(cv_table)
+
 
 ```
+
+
+We see that for knn = 2, the boxplot shows that it has the largest range. The shape of the box itself is also very wide. The boxplots for knn = 5 and knn = 10 are much more similar looking. They both have a much smaller range and skinnier boxes. It appears that the range for knn = 5 is the lowest. 
+When we look at the table, we see that knn = 2, it has the largest mean and the largest standard deviation. knn = 5 has the lowest standard deviation and knn = 10 has the lowest mean. 
+
+
+Compare the means and standard deviations of the the different values of k and comment on why you think this is the case.
+
+
 
 

@@ -14,7 +14,7 @@ You can install the project3package with the following line:
 
 ``` r
 # install.packages("project3package")
-devtools::install_github("arielle-min/project3package")
+devtools::install_github("arielle-min/project3package", build_vignette = TRUE, build_opts = c())
 library(project3package)
 ```
 
