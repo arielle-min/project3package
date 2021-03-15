@@ -1,11 +1,11 @@
 #' T Test Function
 #'
-#' This function preforms a one sample t-test.
+#' This function performs a one sample t-test.
 #'
 #' @param x Numeric input of a vector containing a set of data.
 #' @param alternative String input indicating the type of hypothesis test.
 #' @param mu Numeric input representing the value for the null hypothesis of
-#'   the mean, defaults to \code{0}.
+#'   the mean.
 #' @keywords inference
 #'
 #' @return List output containing the t-statistic, df, \code{alternative},
@@ -13,6 +13,8 @@
 #'
 #' @examples
 #' my_t_test(c(10, 15, 14, 16), alternative = "two.sided", mu = 13)
+#' my_t_test(c(10, 15, 14, 16), alternative = "greater", mu = 13)
+#' my_t_test(c(10, 15, 14, 16), alternative = "less", mu = 13)
 #'
 #' @export
 my_t_test <- function (x, alternative, mu) {

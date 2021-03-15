@@ -1,9 +1,10 @@
 #' k-Nearest Neighbors Cross-Validation Function
 #'
 #' This function predicts an output class using covariates from the same data set.
+#'   It also gives the average misclassification rate.
 #'
 #' @param train Data frame input.
-#' @param cl Vector input containing the true class of the training data.
+#' @param cl Factor input containing the true class of the training data.
 #' @param k_nn Numeric input of the k-nearest neighbors.
 #' @param k_cv Numeric input of number of folds.
 #' @keywords prediction

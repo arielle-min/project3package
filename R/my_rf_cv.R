@@ -1,11 +1,12 @@
 #' Random Forest Cross-Validation Function
 #'
 #' This function predicts a variable using covariates from the same data set.
+#'   It also gives the mean standard error.
 #'
 #' @param k Numeric input of the number of folds.
 #' @keywords prediction
 #'
-#' @return Numeric output of the cross-validation error.
+#' @return Numeric output of the cross-validation mean standard error.
 #'
 #' @examples
 #' my_rf_cv(k = 5)

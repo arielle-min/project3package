@@ -43,23 +43,31 @@ library(project3package)
 
 ```
 
-```{r, include = FALSE} 
-set.seed(302)
-library(tidyverse)
-library(palmerpenguins)
-library(class)
-library(matrixStats)
-```
-
 ## Introduction
 
-This is the introduction of my project. Include how to install package.
+This package (project3package) contains four functions and one data set. The functions are `my_t_test`, `my_lm`, `my_knn_cv`, and `my_rf_cv`. The function `my_t_test` performs a one sample t-test, `my_lm` fits a linear model, `my_knn_cv` predicts an output class using covariates from the same data set, and `my_rf_cv` predicts a variable using covariates from the same data set. The data set is `my_gapminder`, which includes data from the `gapminder` package. 
+
+
+To install this package, one can follow the instructions below (and displayed on [https://github.com/arielle-min/project3package](https://github.com/arielle-min/project3package)). 
+
+
+To summarize, you want to make a call to `devtools` to install github using `install_github()` from my github, which is "arielle-min/project3package". After this, one can call `library(project3package)` to be able to use my package. 
 
 ```{r, eval = FALSE}
 # installs package
 devtools::install_github("arielle-min/project3package")
 # access to library
 library(project3package)
+```
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE} 
+set.seed(302)
+
+# loads necessary libraries
+library(tidyverse)
+library(palmerpenguins)
+library(class)
+library(matrixStats)
 ```
 
 ## Tutorial for my_t_test
@@ -69,6 +77,7 @@ lifeExp_data <- my_gapminder$lifeExp
 
 ### Two.Sided Hypothesis:
 ```{r}
+# runs function with two.sided alternative
 my_t_test(lifeExp_data, "two.sided", 60)
 
 ```
@@ -77,6 +86,7 @@ There is not enough data to support that the mean life expectancy is not equal t
 
 ### Less Hypothesis:
 ```{r}
+# runs function with less alternative
 my_t_test(lifeExp_data, "less", 60)
 
 ```
@@ -85,6 +95,7 @@ This data supports that the mean life expectancy is less than 60.
 
 ### Greater Hypothesis:
 ```{r}
+# runs function with greater alternative
 my_t_test(lifeExp_data, "greater", 60)
 
 ```
@@ -95,9 +106,10 @@ There is not enough data to support that the mean life expectancy is greater to 
 
 ### Linear Model:
 ```{r}
+# runs function
 my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
 ```
-The coefficient for gdpPercap is .0004452704, which is about 0. This means that gdpPercap has no impact on life expectancy. 
+The coefficient (β) for gdpPercap is .0004452704, which is about 0. So the expected difference in life expectancy between two observations differing by one unit in gdp Per cap with all other covariates identical is about 0. This means that gdp Pe rcap has no impact on life expectancy. 
 
 
 Ho: β = 0
@@ -106,14 +118,21 @@ Ho: β = 0
 Ha: β ≠ 0
 
 
-The p-value is 8.552893e-73, which is about 0 and means that there's about a .0 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since .0 is less than our alpha level, .05, this means we reject the null hypothesis. 
+The p-value is 8.552893e-73, which is about 0 and means that there's about a 0 probability of observing a test statistic as or more extreme than what we observed given that the null hypothesis is true. Since 0 is less than our alpha level, .05, this means we reject the null hypothesis. 
 This data supports that the the coefficient for gdpPercap is not equal to 0.  
 
 ### Plotting Values:
 ```{r, fig.width = 7, fig.height = 4}
+# creates a linear model
 lifeExp_model <- lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+
+# extracts fitted values from linear model
 lifeExp_model_fits <- fitted(lifeExp_model)
+
+# creates data frame of actual and fitted values
 my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_model_fits)
+
+# creates then prints a graph of actual vs fitted values
 lifeExp_plot <- ggplot(my_df, aes(x = fitted, y = actual)) +
                   geom_point() +
                   geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) + 
@@ -126,16 +145,22 @@ print(lifeExp_plot)
 
 
 
-With the model, we see that for the fitted values that are less than 70, there is very little accuracy with the model. However, for the fitted values that are between 70-85, there is much more accuracy. Overall, because the model is trying to predict values from the entire actual data set, I'd say that this model isn't very accurate. 
+With the model, we see that for the fitted values that are less than 65, there is very little accuracy with the model. However, for the fitted values that are between 65-85, there is much more accuracy. It seems that this model is only accurate after it reaches actual values past 65, where is's better able to match the fitted values (also past 65). Overall, because the model is trying to predict values from the entire actual data set, I'd say that this model isn't very accurate. 
 
 ## Tutorial for my_knn_cv
 
 ```{r}
+# removes na values
 penguins_omit <- na.omit(penguins) 
+
+# selects specific columns for data frame
 train <- penguins_omit %>% select(3, 4, 5, 6)
+
+# creates empty matrices
 cv_error <- matrix(NA, nrow = 10) 
 train_error <- matrix(NA, nrow = 10) 
 
+# runs function with a k_nn value from 1 to 10
 for (i in 1:10) {
   cv_mis_value <- my_knn_cv(train, penguins_omit$species, k_nn = i, k_cv = 5)
   train_err_value <- knn(train, train, penguins_omit$species, k = i)
@@ -154,11 +179,11 @@ print(error_table)
 ```
 
 
+For training misclassification rates, I would choose the model with k = 1 because the training error is the lowest. 
+For CV misclassification rates, I would choose the model with k = __ because the misclassification rate is the lowest. 
 
-State which model you would choose based on the training misclassification rates and which model you would choose based on the CV misclassification rates.
 
-
-Discuss which model you would choose in practice and why.
+In practice, I would choose the CV misclassification model because using training error model gives us the minimized error from our training data, but we can't generalize this error rate to our test data. However, with the cv misclassification model, we get an estimate of the test error which is the average of the mean squared errors across the folds. This method is more generalizable, which is why it would be better in practice. 
 
 
 ## Tutorial for my_rf_cv
@@ -217,10 +242,4 @@ print(cv_table)
 
 We see that for knn = 2, the boxplot shows that it has the largest range. The shape of the box itself is also very wide. The boxplots for knn = 5 and knn = 10 are much more similar looking. They both have a much smaller range and skinnier boxes. It appears that the range for knn = 5 is the lowest. 
 When we look at the table, we see that knn = 2, it has the largest mean and the largest standard deviation. knn = 10 has the lowest mean and the lowest standard deviation. 
-
-
-Compare the means and standard deviations of the the different values of k and comment on why you think this is the case.
-
-
-
-
+When we increase our value for k nearest neighbors, we're increasing the number of surrounding data points that we use to predict the output. Since we're increasing the number, this provides a lower average cv estimate and lower standard error. 

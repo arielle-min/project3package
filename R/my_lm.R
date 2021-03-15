@@ -6,7 +6,7 @@
 #'   from \code{data}.
 #' @param data Data frame input.
 #' @keywords inference
-#'@keywords prediction
+#' @keywords prediction
 #'
 #' @return Matrix displaying the coefficient, standard error, observed
 #'   t value, and p_value for the linear model.
