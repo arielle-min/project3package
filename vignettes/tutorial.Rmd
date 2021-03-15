@@ -164,32 +164,34 @@ Discuss which model you would choose in practice and why.
 ## Tutorial for my_rf_cv
 
 ```{r, fig.width = 7, fig.height = 7}
+# creates empty matrices
 cv_est_mse_2 <- matrix(NA, nrow = 30) 
 cv_est_mse_5 <- matrix(NA, nrow = 30) 
 cv_est_mse_10 <- matrix(NA, nrow = 30) 
 
+# runs function 30 times
 for (i in 1:30) {
   cv_muse_value <- my_rf_cv(2)
   cv_est_mse_2[i] <- cv_muse_value
 }
 
+# runs function 30 times
 for (i in 1:30) {
   cv_muse_value <- my_rf_cv(5)
   cv_est_mse_5[i] <- cv_muse_value
 }
 
+# runs function 30 times
 for (i in 1:30) {
   cv_muse_value <- my_rf_cv(10)
   cv_est_mse_10[i] <- cv_muse_value
 }
 
-k_cv_est_mse_matrix <- cbind(cv_est_mse_2, cv_est_mse_5, cv_est_mse_10)
-colnames(k_cv_est_mse_matrix) <- c("2", "5", "10")
-rownames(k_cv_est_mse_matrix) <- c(1:30)
-
+# creates a data frame with values for each knn value
 k_cv_est_mse <- data.frame("knn" = rep(c("2", "5", "10"), each = 30),
                            "cv_est_mse"  = c(cv_est_mse_2, cv_est_mse_5, cv_est_mse_10))
 
+# creates then prints a graph displaying three boxplots
 knn_mse_box <- ggplot(k_cv_est_mse, aes(x = knn, y = cv_est_mse)) + 
                   geom_boxplot(fill = "lightblue") +
                   labs(title = "CV estimated MSE based on knn", 
@@ -198,6 +200,8 @@ knn_mse_box <- ggplot(k_cv_est_mse, aes(x = knn, y = cv_est_mse)) +
                   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 print(knn_mse_box)
 
+# creates a table displaying the mean and standard deviation
+# for each of the knn values
 cv_table <- matrix(c(colMeans(cv_est_mse_2), colSds(cv_est_mse_2), 
                      colMeans(cv_est_mse_5), colSds(cv_est_mse_5), 
                      colMeans(cv_est_mse_10), colSds(cv_est_mse_10)), 
