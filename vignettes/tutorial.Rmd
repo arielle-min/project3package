@@ -61,7 +61,6 @@ library(project3package)
 ```
 
 ```{r, echo = TRUE, message = FALSE, warning = FALSE} 
-set.seed(25)
 
 # loads necessary libraries
 library(tidyverse)
@@ -180,7 +179,7 @@ print(error_table)
 
 
 For training misclassification rates, I would choose the model with k_nn = 1 because the training error is the lowest.
-For CV misclassification rates, I would choose the model with k_nn = 1 because the misclassification rate is the lowest. 
+For CV misclassification rates, I would choose the model with k_nn = 1 because the misclassification rate is the lowest. (Due to randomness of splitting data into the folds, this current version may not have k_nn = 1 as having the lowest misclassification rate, but after running the function many different times, it would usually end up with k_nn = 1 having the lowest misclassification rate.)
 
 
 In practice, I would choose the CV misclassification model because using training error model gives us the minimized error from our training data, but we can't generalize this error rate to our test data. When we use k_nn = 1, the model is essentially just copying over the input data (of 1 nearest neighbor) and using that to predict the output class. This is why the training error is 0, since the predicted output class the exact as the input data class. This is also why we can't generalize this error rate to the rest of our test data, since the output class with k_nn = 1 only really applies to one specific set of training data. However, with the cv misclassification model, we get an estimate of the test error which is the average of the misclassification error rates across the folds. Separating the data into folds allows us to use all but one fold of our data as training data and the remaining as test data. We make predictions using the test data and then repeat the process for all the folds. Within each fold we get a misclassification error rate, which allows us to get an average misclassification error rate for the whole data set. Since we get an average, this method is more generalizable, which is why it would be better in practice. 
@@ -242,4 +241,7 @@ print(cv_table)
 
 We see that for knn = 2, the boxplot shows that it has the largest range. The shape of the box itself is also rather long in length. The boxplots for knn = 5 and knn = 10 are much more similar looking. They both have a much smaller range and shorter boxes. It appears that the range for knn = 10 is the lowest. 
 When we look at the table, we see that knn = 2, it has the largest mean and the largest standard deviation. knn = 10 has the lowest mean and the lowest standard deviation. 
+
+(Due to randomness of splitting data into the folds, this current version may not have the same results as the ones described above but after running the function many different times, it would typically end up with the same results as described above.)
+
 When we increase our value for k nearest neighbors, we're increasing the number of surrounding data points that we use to predict the output. Since we're increasing the number, this provides a lower average cv estimate and lower standard error. 
