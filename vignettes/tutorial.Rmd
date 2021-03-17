@@ -106,7 +106,8 @@ There is not enough data to support that the mean life expectancy is greater to 
 ### Linear Model:
 ```{r}
 # runs function
-my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+lifeExp_lm <- my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+print(lifeExp_lm)
 ```
 The coefficient (β) for gdpPercap is .0004452704, which is about 0. So the expected difference in life expectancy between two observations differing by one unit in gdp Per cap with all other covariates identical is about 0. This means that gdp Pe rcap has no impact on life expectancy. 
 
@@ -121,20 +122,41 @@ The p-value is 8.552893e-73, which is about 0 and means that there's about a 0 p
 This data supports that the the coefficient for gdpPercap is not equal to 0.  
 
 ### Plotting Values:
-```{r, fig.width = 7, fig.height = 4}
-# creates a linear model
-lifeExp_model <- lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+```{r, fig.width = 7, fig.height = 4, warning = FALSE}
+# subsets the data based on continent
+con_asia <- subset(my_gapminder, continent == "Asia")
+con_america <- subset(my_gapminder, continent == "Americas")
+con_europe <- subset(my_gapminder, continent == "Europe")
+con_oceania <- subset(my_gapminder, continent == "Oceania")
+con_africa <- subset(my_gapminder, continent == "Africa")
 
-# extracts fitted values from linear model
-lifeExp_model_fits <- fitted(lifeExp_model)
+# uses the linear model based on continent to predict life expectancy
+con_asia_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
+                      lifeExp_lm[4, 1] + lifeExp_lm[1, 1]
+con_america_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
+                          lifeExp_lm[3, 1] + lifeExp_lm[1, 1]
+con_europe_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
+                        lifeExp_lm[5, 1] + lifeExp_lm[1, 1]
+con_oceania_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
+                        lifeExp_lm[6, 1] + lifeExp_lm[1, 1]
+con_africa_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
+                        lifeExp_lm[1, 1]
+
+# creates a matrix of predictions for life expectancy 
+lifeExp_model_predict <- matrix(NA, nrow = 1704)
+lifeExp_model_predict[1:396] <- con_asia_predict
+lifeExp_model_predict[397:696] <- con_america_predict
+lifeExp_model_predict[697:1056] <- con_europe_predict
+lifeExp_model_predict[1057:1080] <- con_oceania_predict
+lifeExp_model_predict[1081:1704] <- con_africa_predict
 
 # creates data frame of actual and fitted values
-my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_model_fits)
+my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_model_predict)
 
 # creates then prints a graph of actual vs fitted values
 lifeExp_plot <- ggplot(my_df, aes(x = fitted, y = actual)) +
                   geom_point() +
-                  geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) + 
+                  geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) +
                   theme_bw(base_size = 16, base_family = "serif") +
                   labs(x = "Fitted values", y = "Actual values", 
                        title = "Actual vs. Fitted") +
@@ -143,8 +165,8 @@ print(lifeExp_plot)
 ```
 
 
+With the model, we see that it overestimates and underestimates most of the values. It's not very accurate. For example, we can see that for an actual value of 60, the fitted values cluster at either 47, 57, 62, or 66.  This plot tells us that the model fit is not very accurate for this set of data. 
 
-With the model, we see that for the fitted values that are less than 65, there is very little accuracy with the model. However, for the fitted values that are between 65-85, there is much more accuracy. It seems that this model is only accurate after it reaches actual values past 65, where is's better able to match the fitted values (also past 65). Overall, because the model is trying to predict values from the entire actual data set, I'd say that this model isn't very accurate. 
 
 ## Tutorial for my_knn_cv
 
