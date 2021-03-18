@@ -122,36 +122,18 @@ The p-value is 8.552893e-73, which is about 0 and means that there's about a 0 p
 This data supports that the the coefficient for gdpPercap is not equal to 0.  
 
 ### Plotting Values:
-```{r, fig.width = 7, fig.height = 4, warning = FALSE}
-# subsets the data based on continent
-con_asia <- subset(my_gapminder, continent == "Asia")
-con_america <- subset(my_gapminder, continent == "Americas")
-con_europe <- subset(my_gapminder, continent == "Europe")
-con_oceania <- subset(my_gapminder, continent == "Oceania")
-con_africa <- subset(my_gapminder, continent == "Africa")
+```{r, fig.width = 7, fig.height = 4}
+# stores the model estimates
+my_estimates <- as.matrix(lifeExp_lm[,"Estimate"])
 
-# uses the linear model based on continent to predict life expectancy
-con_asia_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
-                      lifeExp_lm[4, 1] + lifeExp_lm[1, 1]
-con_america_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
-                          lifeExp_lm[3, 1] + lifeExp_lm[1, 1]
-con_europe_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
-                        lifeExp_lm[5, 1] + lifeExp_lm[1, 1]
-con_oceania_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
-                        lifeExp_lm[6, 1] + lifeExp_lm[1, 1]
-con_africa_predict <- (my_gapminder$gdpPercap * lifeExp_lm[2, 1]) + 
-                        lifeExp_lm[1, 1]
+# creates of matrix of data that will be used in the model
+model_data <- model.matrix(lifeExp ~ gdpPercap + continent, my_gapminder)
 
-# creates a matrix of predictions for life expectancy 
-lifeExp_model_predict <- matrix(NA, nrow = 1704)
-lifeExp_model_predict[1:396] <- con_asia_predict
-lifeExp_model_predict[397:696] <- con_america_predict
-lifeExp_model_predict[697:1056] <- con_europe_predict
-lifeExp_model_predict[1057:1080] <- con_oceania_predict
-lifeExp_model_predict[1081:1704] <- con_africa_predict
+# multiples the matrix data to get the predicted output
+lifeExp_predict <- model_data %*% my_estimates
 
 # creates data frame of actual and fitted values
-my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_model_predict)
+my_df <- data.frame(actual = my_gapminder$lifeExp, fitted = lifeExp_predict)
 
 # creates then prints a graph of actual vs fitted values
 lifeExp_plot <- ggplot(my_df, aes(x = fitted, y = actual)) +
@@ -165,7 +147,7 @@ print(lifeExp_plot)
 ```
 
 
-With the model, we see that it overestimates and underestimates most of the values. It's not very accurate. For example, we can see that for an actual value of 60, the fitted values cluster at either 47, 57, 62, or 66.  This plot tells us that the model fit is not very accurate for this set of data. 
+With the model, we see that for the fitted values that are less than 65, there is very little accuracy with the model. However, for the fitted values that are between 65-85, there is much more accuracy. It seems that this model is only accurate for a small range of actual and fitted values. Overall, because the model is trying to predict values from the entire actual data set, I'd say that this model isn't very accurate and thus shouldn't be heavily relied upon.
 
 
 ## Tutorial for my_knn_cv
